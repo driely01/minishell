@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/21 16:06:48 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/21 21:19:10 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+typedef struct s_token
+{
+	char 			*string;
+	struct s_token	*next;
+}	t_token;
 
 // string functions
 size_t	ft_strlen(const char *str);
