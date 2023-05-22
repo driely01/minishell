@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 13:03:14 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/20 17:11:08 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:18:55 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	start;
 	char	*p;
 
-	if (!s1 || !set)
+	if (s1 == 0 || set == 0)
+		return (0);
+	if (s1[0] == '\0')
 		return (0);
 	i = 0;
 	start = ft_checkbeg(s1, set);

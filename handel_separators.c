@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:31:29 by markik            #+#    #+#             */
-/*   Updated: 2023/05/22 16:26:39 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/22 18:17:50 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,4 @@ void    handel_separators(t_token **token, char *input, size_t *i)
     while (head && head->next)
         head = head->next;
     head->string = ft_strndup(input, start, end);
-    printf("%s\n", head->string);
 }

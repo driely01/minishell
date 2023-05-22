@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 16:15:09 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/22 20:20:39 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_token
 
 // list functions
 void	add_node(t_token **token);
-void	clear_list(t_token *list);
+void	clear_list(t_token **list);
 
 // check functions
 size_t	ft_strlen(const char *str);
@@ -46,8 +46,11 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strndup(char *str, int start, int end);
 void	minishell_tools(t_token **list, char *input);
-void	handle_char(t_token **token, char *input, size_t *i);
-void    handel_qoutes(t_token **token, char *input, size_t *i);
+int		handle_char(t_token **token, char *input, size_t *i);
+int     double_qoutes(t_token **token, char *input, size_t *i);
+int    	single_qoutes(t_token **token, char *input, size_t *i);
+char	*ft_strdup(char *src);
+char	*ft_strcpy(char *dest, char *src);
 
 // handlers functions
 void	handle_whitespace(char *input, size_t *i);

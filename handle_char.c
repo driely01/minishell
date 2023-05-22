@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-void    handle_char(t_token **token, char *input, size_t *i)
+int    handle_char(t_token **token, char *input, size_t *i)
 {
     t_token *head;
+    char    *str;
     int start;
     int end;
     int count;
@@ -16,5 +17,15 @@ void    handle_char(t_token **token, char *input, size_t *i)
     while(head && head->next)
         head = head->next;
     head->string = ft_strndup(input, start, end);
-    printf("%s\n", head->string);
+    if (input[*i] == 34)
+    {
+        if (double_qoutes(token, input, i) == -1)
+            return (-1);
+        str = ft_strdup(head->next->string);
+        head->string = ft_strjoin(head->string, str);
+        head->next = NULL;
+        free(head->next);
+        free(str);
+    }
+    return (0);
 }
