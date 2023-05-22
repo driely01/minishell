@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 10:38:29 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 10:15:50 by del-yaag         ###   ########.fr       */
+/*   Created: 2022/10/09 15:13:24 by del-yaag          #+#    #+#             */
+/*   Updated: 2023/05/20 10:38:25 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env) {
-	char	*input;
-	t_token *list;
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	len1;
+	char	*p;
 
-	if (argc > 1)
+	i = 0;
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	p = malloc(sizeof(char) * (len1 + ft_strlen(s2) + 1));
+	if (!p)
 		return (0);
-	(void)argv;
-	(void)env;
-	while (1)
+	while (s1[i] != '\0')
 	{
-		input = readline("Minishell ");
-		add_history(input);
-		minishell_tools(&list, input);
+		p[i] = s1[i];
+		i++;
 	}
-	clear_history();
-	return (0);
+	i = 0;
+	while (s2[i] != '\0')
+	{
+		p[len1] = s2[i];
+		i++;
+		len1++;
+	}
+	p[len1] = '\0';
+	return (p);
 }

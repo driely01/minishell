@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 10:38:29 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 10:15:50 by del-yaag         ###   ########.fr       */
+/*   Created: 2022/10/08 17:08:08 by del-yaag          #+#    #+#             */
+/*   Updated: 2023/05/22 10:27:37 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env) {
-	char	*input;
-	t_token *list;
-
-	if (argc > 1)
+int	ft_isalnum(int c)
+{
+	if ((c >= '0' && c <= '9')
+		|| (c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	else
 		return (0);
-	(void)argv;
-	(void)env;
-	while (1)
-	{
-		input = readline("Minishell ");
-		add_history(input);
-		minishell_tools(&list, input);
-	}
-	clear_history();
-	return (0);
 }
