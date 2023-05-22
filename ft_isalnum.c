@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 17:08:08 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 10:27:37 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:28:56 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,27 @@ int	ft_isalnum(int c)
 		|| (c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z'))
 		return (1);
-	else
+	else if (ft_isspecialchar(c))
+		return (1);
+	return (0);
+}
+
+int	ft_isspecialchar(int c)
+{
+	if (c != '|' && c != '>' && c != '<' && c != 32 && c != 34 && c != 39)
+		return (1);
+	return (0);
+}
+int	ft_isseparators(int c)
+{
+	if (c != '|' && c != '>' && c != '<')
 		return (0);
+	return (1);
+}
+
+int	is_qoute(int c)
+{
+	if (c == 34 || c == 39)
+		return (1);
+	return (0);
 }
