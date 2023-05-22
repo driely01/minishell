@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   list_funcs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 10:38:29 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 10:15:50 by del-yaag         ###   ########.fr       */
+/*   Created: 2023/05/22 09:41:55 by del-yaag          #+#    #+#             */
+/*   Updated: 2023/05/22 10:47:03 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env) {
-	char	*input;
-	t_token *list;
-
-	if (argc > 1)
-		return (0);
-	(void)argv;
-	(void)env;
-	while (1)
+void	clear_list(t_token *list)
+{
+	t_token	*next;
+	
+	while (list)
 	{
-		input = readline("Minishell ");
-		add_history(input);
-		minishell_tools(&list, input);
+		next = list->next;
+		free(list);
+		list = next;
 	}
-	clear_history();
-	return (0);
+}
+
+void	add_node(t_token **token)
+{
+	t_token	*head;
+
+	if (!(*token))
+	{
+		(*token) = malloc(sizeof(t_token));
+		head = (*token);
+	}
+	else
+	{
+		(*token)->next = malloc(sizeof(t_token));
+		(*token) = (*token)->next;
+	}
+	if (!(*token))
+		clear_list(*token);
+	(*token) = head;
 }
