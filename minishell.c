@@ -6,13 +6,14 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 10:38:29 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 19:32:46 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/23 11:08:44 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env) {
+int	main(int argc, char **argv, char **env)
+{
 	char	*input;
 	t_token *list;
 	t_token *head;
@@ -29,11 +30,12 @@ int	main(int argc, char **argv, char **env) {
 		add_history(input);
 		minishell_tools(&list, input);
 		head = list;
-		while(head)
-		{
-			printf("%s\n", head->string);
-			head = head->next;
-		}
+		//Affichage :
+			while(head)
+			{
+				printf("%s\n", head->string);
+				head = head->next;
+			}
 		clear_list(&list);
 	}
 	clear_history();

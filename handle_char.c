@@ -27,5 +27,15 @@ int    handle_char(t_token **token, char *input, size_t *i)
         free(head->next);
         free(str);
     }
+    else if (input[*i] == 39)
+    {
+        if (single_qoutes(token, input, i) == -1)
+            return (-1);
+        str = ft_strdup(head->next->string);
+        head->string = ft_strjoin(head->string, str);
+        head->next = NULL;
+        free(head->next);
+        free(str);
+    }
     return (0);
 }

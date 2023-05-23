@@ -9,9 +9,9 @@ char *ft_strndup(char *str, int start, int end)
     string = malloc(sizeof(char) * (end - start) + 2);
     while(end - start >= 0)
     {
-        string[i] = str[start];
-        i++;
-        start++;
+            string[i] = str[start];
+            i++;
+            start++;
     }
     string[i] = '\0';
     return (string);

@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 13:31:29 by markik            #+#    #+#             */
-/*   Updated: 2023/05/22 18:17:50 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/23 13:05:36 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void    handel_separators(t_token **token, char *input, size_t *i)
         choosen_separator(token, input, i, '<');
     else if (input[*i] == '>')
         choosen_separator(token, input, i, '>');
+    if (input[*i] == '\0')
+    {
+        printf("Syntax Error\n");
+        return ;
+    }
     end = *i - 1;
     add_node(token);
     head = *token;

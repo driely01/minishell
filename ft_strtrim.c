@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 13:03:14 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 19:18:55 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/23 16:28:22 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t	ft_checklast(char const *s, char const *set)
 	j = ft_strlen(s) - 1;
 	while (set[i])
 	{
-		if (s[j] == set[i])
+		if (j > 0 && s[j] == set[i])
 		{
 			j--;
 			i = 0;
@@ -68,6 +68,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	start = ft_checkbeg(s1, set);
 	end = ft_checklast(s1, set);
+	if (start >= end)
+		return (0);
 	if (start > end)
 		return ((char *)ft_calloc(1, 1));
 	p = malloc(sizeof(char) * ((end - start) + 2));
