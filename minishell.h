@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/23 10:48:04 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/24 14:11:01 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int     double_qoutes(t_token **token, char *input, size_t *i);
 int    	single_qoutes(t_token **token, char *input, size_t *i);
 char	*ft_strdup(char *src);
 char	*ft_strcpy(char *dest, char *src);
+void    expand_input(char **env, char *input);
 
 // handlers functions
 void	handle_whitespace(char *input, size_t *i);
