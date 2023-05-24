@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:16:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/24 14:09:31 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/24 17:45:57 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,28 @@ int	tokenizer(t_token **token, char *input)
 	return (0);
 }
 
-void	minishell_tools(t_token **token, char *input)
+void	minishell_tools(t_token **token, char **env, char *input)
 {
 	char	*trimed;
+	char	*line;
 
 	trimed = ft_strtrim(input, " \t\r\f\v");
 	if (!trimed)
+	{
+		free(input);
 		return;
-	free(input);
-	tokenizer(token, trimed);
-	free(trimed);
+	}
+	line = expand_input(env, trimed);
+	if(!line)
+	{
+		free(input);
+		tokenizer(token, trimed);
+		free(trimed);	
+	}
+	else
+	{
+		free(input);
+		tokenizer(token, line);
+		free(line);
+	}
 }

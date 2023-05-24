@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 13:03:14 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/24 14:54:47 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:00:41 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	i = 0;
 	start = ft_checkbeg(s1, set);
 	end = ft_checklast(s1, set);
-	if (start >= end)
+	if (start > end)
 		return (0);
 	if (start > end)
 		return ((char *)ft_calloc(1, 1));

@@ -3,31 +3,50 @@
 #include <string.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
+#include <string.h>
 
-char *replaceWord(char *line, char *word, char *new_word)
+char    *replaceWord(char *line, char *word, char *change_word, int start, int end)
 {
-    char *line_part;
-    char *line_part_1;
+    int len = (ft_strlen(line) - (ft_strlen(word) + 1) + ft_strlen(change_word) + 1);
+    char *str = malloc(sizeof(char) * len);
+    int    i;
+    int     j;
+    int     a;
 
-    size_t i = ft_strlen(line) - 1;
-    line_part = ft_strdup(strstr(line, word));
-    if(!line_part)
-        return 0;
-    size_t j = ft_strlen(line_part);
-    printf("line %s\n", line);
-    printf("world: %s\n", line_part);
-        printf("world: %s\n", new_word);
-        printf("i is %ld\n", i);
-                printf("j is %ld\n", j);
-    if (i == j)
+    i = 0;
+    a = 0;
+    j = 0;
+    while(i <= ft_strlen(line))
     {
-        free(line);
-        line = ft_strdup(new_word);
-        return(line);
+        if (i == start)
+        {
+            a = i - 1;
+            while(change_word[j])
+            {
+                str[a] = change_word[j];
+                a++;
+                j++;
+            }
+            i = end + 1;
+        }
+        else
+        {
+            if (a > 0)
+            {
+                str[a] = line[i];
+                a++;
+                i++;
+            }
+            else
+            {
+                str[i] = line[i];
+                i++;
+            }
+        }
     }
-    else
-        exit(0);
-    //line_part_1 = ft_strndup(line, 0, i - j);
+    free(line);
+    return (str);
 }
 
 int	ft_strncmp(char *s1, char *s2, size_t n)
@@ -103,25 +122,25 @@ char *change_line_input(char **env, char *input, size_t *i ,size_t *count)
     }
     //$$ ZAWJI:
     if ((*count) % 2 ==  1)
-        return (NULL);
+        return (input);
     start = *i;
     while(input[*i] && valid_expand(input[*i]))
     {
         //treating conditions
         if (input[*i] == '_' && !ft_isalnum_expand(input[*i + 1]))
         {
-            return NULL;
+            return input;
         }
         (*i)++;
     }
     if (start == *i)
-        return NULL;
+        return input;
     end = *i - 1;
     tab = ft_strndup(input, start, end);
     str = getenv(ft_strchr(env, tab));
     if (!str)
         return NULL;
-    replaceWord(input, tab, str);
+    input = replaceWord(input, tab ,str, start, end);
     free(tab);
     return input;
 }
@@ -133,28 +152,28 @@ char *expand_start_end(char **env, char *input)
     size_t count;
 
     i = 0;
-    int j = ft_strlen(input);
-    while (i < j)
+    while (i < ft_strlen(input))
     {
         count = 0;
         if (input[i] == '$')
         {
             tab = change_line_input(env, input, &i , &count);
             if (!tab)
-                return 0;
+                return NULL;
+            input = ft_strdup(tab);
+            free(tab);
         }
         i++;
     }
-    return (0);
+    return (input);
 }
 
-void    expand_input(char **env, char *input)
+char    *expand_input(char **env, char *input)
 {
     char *tab;
 
     tab = expand_start_end(env, input);
     if (!tab)
-        return ;
-    // printf("string %s\n", tab);
-    free(tab);
+        return NULL;
+    return (tab);
 }

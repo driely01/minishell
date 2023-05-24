@@ -6,7 +6,7 @@
 /*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/24 14:11:01 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/24 17:29:39 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strndup(char *str, int start, int end);
-void	minishell_tools(t_token **list, char *input);
+void	minishell_tools(t_token **list, char **env, char *input);
 int		handle_char(t_token **token, char *input, size_t *i);
 int     double_qoutes(t_token **token, char *input, size_t *i);
 int    	single_qoutes(t_token **token, char *input, size_t *i);
 char	*ft_strdup(char *src);
 char	*ft_strcpy(char *dest, char *src);
-void    expand_input(char **env, char *input);
+char    *expand_input(char **env, char *input);
 
 // handlers functions
 void	handle_whitespace(char *input, size_t *i);
