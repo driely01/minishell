@@ -3,42 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   list_funcs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:41:55 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 10:47:03 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:30:08 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	clear_list(t_token *list)
+void	clear_list(t_token **list)
 {
-	t_token	*next;
 	
-	while (list)
-	{
-		next = list->next;
-		free(list);
-		list = next;
-	}
+	if (!(*list))
+		return ;
+	if ((*list)->next)
+		clear_list(&(*list)->next);
+	free((*list)->string);
+	free(*list);
 }
 
 void	add_node(t_token **token)
 {
 	t_token	*head;
+	t_token *new;
 
 	if (!(*token))
 	{
-		(*token) = malloc(sizeof(t_token));
-		head = (*token);
+		*token = malloc(sizeof(t_token));
+		(*token)->next = NULL;
 	}
 	else
 	{
-		(*token)->next = malloc(sizeof(t_token));
-		(*token) = (*token)->next;
+		head = *token;
+		while (head && head->next)
+			head = head->next; 
+		new = malloc(sizeof(t_token));
+		head->next = new;
+		new->next = NULL;
 	}
 	if (!(*token))
-		clear_list(*token);
-	(*token) = head;
+		clear_list(token);
 }

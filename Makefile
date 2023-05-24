@@ -3,18 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
+#    By: markik <markik@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/05/21 14:47:46 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/05/24 11:29:39 by markik           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = minishell.c
+SRC = minishell.c handel_specialchar.c \
+	  handle_whitespace.c ft_strndup.c \
+	  ft_isalnum.c ft_split.c ft_strjoin.c \
+	  ft_strtrim.c handlers.c handle_char.c \
+	  list_funcs.c minishell_tools.c split_utils.c \
+	  handel_separators.c handel_qoutes.c expand.c
 
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -fsanitize=address -g
 CC = cc
 RM = rm -f
 
