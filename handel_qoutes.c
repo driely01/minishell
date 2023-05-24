@@ -91,7 +91,7 @@ int    single_qoutes(t_token **token, char *input, size_t *i)
     else if (flag == 3)
     {
         head = *token;
-        while(head && !head->next)
+        while(head && head->next)
             head = head->next;
         str = ft_strndup(input, start, end);
         head->string = ft_strjoin(head->string, str);
@@ -128,6 +128,8 @@ int    single_qoutes(t_token **token, char *input, size_t *i)
         head = *token;
         while(head && head->next && head->next->next)
             head = head->next;
+        if(!head || !head->next)
+            return 0;
         str = ft_strdup(head->next->string);
         head->string = ft_strjoin(head->string, str);
         head->next = NULL;
@@ -236,6 +238,8 @@ int    double_qoutes(t_token **token, char *input, size_t *i)
         head = *token;
         while(head && head->next && head->next->next)
             head = head->next;
+        if(!head || !head->next)
+            return 0;
         str = ft_strdup(head->next->string);
         head->string = ft_strjoin(head->string, str);
         head->next = NULL;
