@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/24 17:29:39 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/25 16:24:54 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,24 @@
 typedef struct s_token
 {
 	char 			*string;
+	struct s_envs	*envs;
 	struct s_token	*next;
-	// struct s_var	g_var;
 }	t_token;
 
-// typedef struct s_var
-// {
-// 	int flag;
-// }	t_var;
+typedef struct s_envs
+{
+	char			*name;
+	char			*value;
+	struct s_envs	*next;
+}	t_envs;
 
-// list functions
+// list tokens functions
 void	add_node(t_token **token);
 void	clear_list(t_token **list);
+
+// list envs functions
+void	fill_envs(t_envs **envs, char **env);
+void	clear_list_envs(t_envs **list);
 
 // check functions
 size_t	ft_strlen(const char *str);
@@ -51,13 +57,17 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strndup(char *str, int start, int end);
-void	minishell_tools(t_token **list, char **env, char *input);
+void	minishell_tools(t_token **token, t_envs *envs, char *input);
 int		handle_char(t_token **token, char *input, size_t *i);
 int     double_qoutes(t_token **token, char *input, size_t *i);
 int    	single_qoutes(t_token **token, char *input, size_t *i);
 char	*ft_strdup(char *src);
 char	*ft_strcpy(char *dest, char *src);
-char    *expand_input(char **env, char *input);
+char    *expand_input(t_envs *env, char *input);
+char	*ft_getenv(t_envs *envs, char *search);
+char	*ft_strlen_var(char *str, char c);
+int		ft_strncmp(char *s1, char *s2, size_t n);
+
 
 // handlers functions
 void	handle_whitespace(char *input, size_t *i);
