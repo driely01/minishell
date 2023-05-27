@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:13:24 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/23 18:08:21 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:16:45 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ char	*ft_strjoin(char *s1, char *s2)
 		len1++;
 	}
 	p[len1] = '\0';
-	return (p);
+	return (free(s1), p);
 }

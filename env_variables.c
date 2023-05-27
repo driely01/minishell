@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:20:28 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/25 17:04:45 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/27 20:55:04 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,16 @@ char	*ft_getenv(t_envs *envs, char *search)
 	while (envs)
 	{
 		len_env = ft_strlen(envs->name);
-		if (!ft_strncmp(envs->name, search, len_search) && len_env == len_search)
+		if (!ft_strncmp(envs->name, search, len_search)
+			&& len_env == len_search)
 			return (envs->value);
 		envs = envs->next;
 	}
 	return (NULL);
 }
 
-
 void	add_envs(t_envs **envs, t_envs **head)
 {
-	t_envs *new;
-
 	if (!(*envs))
 	{
 		*envs = malloc(sizeof(t_envs));

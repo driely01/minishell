@@ -3,40 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 10:38:29 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/24 17:30:00 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/27 21:24:34 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+static void	read_line(t_envs *envs)
 {
 	char	*input;
-	t_token *list;
-	t_token *head;
+	t_token	*list;
+	t_token	*head;
 
-	list = NULL;
-	if (argc > 1)
-		return (0);
-	(void)argv;
 	while (1)
 	{
 		list = NULL;
 		input = readline("\033[1;36mMinishell \033[0m");
 		add_history(input);
-		minishell_tools(&list, env, input);
+		input = minishell_tools(&list, envs, input);
+		free(input);
 		head = list;
-		//Affichage :
-			while(head)
-			{
-				printf("%s\n", head->string);
-				head = head->next;
-			}
+		while (head)
+		{
+			printf("%s\n", head->string);
+			head = head->next;
+		}
 		clear_list(&list);
 	}
+	clear_list_envs(&envs);
 	clear_history();
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	t_envs	*envs;
+
+	if (argc > 1)
+		return (0);
+	(void)argv;
+	fill_envs(&envs, env);
+	read_line(envs);
 	return (0);
 }

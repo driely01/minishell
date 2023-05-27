@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_funcs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:41:55 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/22 19:30:08 by markik           ###   ########.fr       */
+/*   Updated: 2023/05/27 18:21:51 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	clear_list(t_token **list)
 {
-	
 	if (!(*list))
 		return ;
 	if ((*list)->next)
@@ -26,7 +25,7 @@ void	clear_list(t_token **list)
 void	add_node(t_token **token)
 {
 	t_token	*head;
-	t_token *new;
+	t_token	*new;
 
 	if (!(*token))
 	{
@@ -37,7 +36,7 @@ void	add_node(t_token **token)
 	{
 		head = *token;
 		while (head && head->next)
-			head = head->next; 
+			head = head->next;
 		new = malloc(sizeof(t_token));
 		head->next = new;
 		new->next = NULL;
