@@ -6,13 +6,13 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 15:13:24 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/20 10:38:25 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:16:45 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	len1;
@@ -38,5 +38,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		len1++;
 	}
 	p[len1] = '\0';
-	return (p);
+	return (free(s1), p);
 }

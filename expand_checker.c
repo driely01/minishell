@@ -1,46 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   expand_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 17:08:08 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 18:15:53 by del-yaag         ###   ########.fr       */
+/*   Created: 2023/05/27 20:13:14 by del-yaag          #+#    #+#             */
+/*   Updated: 2023/05/27 20:13:32 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalnum(int c)
+int	is_alpha(char c)
+{
+	if ((c >= 'a' && c <= 'z')
+		|| (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int	ft_isalnum_expand(int c)
 {
 	if ((c >= '0' && c <= '9')
 		|| (c >= 'a' && c <= 'z')
 		|| (c >= 'A' && c <= 'Z'))
 		return (1);
-	else if (ft_isspecialchar(c))
+	return (0);
+}
+
+int	valid_expand(char c)
+{
+	if (c == '_' || is_alpha(c))
 		return (1);
 	return (0);
 }
 
-int	ft_isspecialchar(int c)
+int	check_ifseperator_file(t_exp *expand, int z)
 {
-	if (c != '|' && c != '>' && c != '<' && !ft_isspace(c)
-		&& c != 34 && c != 39 && c != '\0')
-		return (1);
-	return (0);
+	int	fd;
+
+	fd = open(&expand->str[z], O_RDWR, 0777);
+	if (fd != -1)
+		close(fd);
+	return (fd);
 }
 
-int	ft_isseparators(int c)
+void	expand_if_seperator(t_exp *expand, char *str, size_t *i, size_t *j)
 {
-	if (c != '|' && c != '>' && c != '<')
-		return (0);
-	return (1);
-}
-
-int	is_qoute(int c)
-{
-	if (c == 34 || c == 39)
-		return (1);
-	return (0);
+	str[*j] = 39;
+	(*j)++;
+	str[*j] = expand->str[*i];
+	(*j)++;
+	str[*j] = 39;
+	(*j)++;
+	(*i)++;
 }

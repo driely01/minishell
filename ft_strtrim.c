@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 13:03:14 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/20 17:11:08 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:00:41 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t	ft_checklast(char const *s, char const *set)
 	j = ft_strlen(s) - 1;
 	while (set[i])
 	{
-		if (s[j] == set[i])
+		if (j > 0 && s[j] == set[i])
 		{
 			j--;
 			i = 0;
@@ -61,11 +61,15 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	start;
 	char	*p;
 
-	if (!s1 || !set)
+	if (s1 == 0 || set == 0)
+		return (0);
+	if (s1[0] == '\0')
 		return (0);
 	i = 0;
 	start = ft_checkbeg(s1, set);
 	end = ft_checklast(s1, set);
+	if (start > end)
+		return (0);
 	if (start > end)
 		return ((char *)ft_calloc(1, 1));
 	p = malloc(sizeof(char) * ((end - start) + 2));
