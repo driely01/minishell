@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:15:21 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 21:18:17 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 12:53:35 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,21 +76,30 @@ char	*expand_env_char(t_exp *expand, t_envs *envs, char *input, size_t *i)
 	return (input);
 }
 
-void	expand_env_seperators(char *input, size_t *i)
+void	isquote_env(char *input, size_t *i)
 {
-	(*i) = (*i) + 2;
-	while (*i < ft_strlen(input) && (ft_isspace(input[*i]) || input[*i] == 31))
-		(*i)++;
-	while ((*i) < ft_strlen(input) && (!ft_isspace(input[*i])
-			|| input[*i] == 31))
+	int	c;
+
+	if (is_qoute(input[*i]))
 	{
-		if (ft_isseparators(input[*i]))
+		c = input[*i];
+		(*i)++;
+		while ((*i) < ft_strlen(input) || input[*i] == 31)
+		{
+			if (input[*i] == c)
+				break ;
+			(*i)++;
+		}
+		(*i)++;
+		if (*i < ft_strlen(input) && is_qoute(input[*i]))
+			isquote_env(input, i);
+		while (*i < ft_strlen(input) && input[*i] != 32
+			&& !ft_isseparators(input[*i]))
 		{
 			(*i)++;
-			break ;
+			if (is_qoute(input[*i]))
+				isquote_env(input, i);
 		}
-		else if (input[*i] == 39)
-			break ;
-		(*i)++;
+		return ;
 	}
 }

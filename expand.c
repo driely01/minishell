@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:34:42 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 21:35:47 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 12:53:43 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,28 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+void	expand_env_seperators(char *input, size_t *i)
+{
+	(*i) = (*i) + 2;
+	while (*i < ft_strlen(input) && (ft_isspace(input[*i]) || input[*i] == 31))
+		(*i)++;
+	if (*i < ft_strlen(input) && is_qoute(input[*i]))
+	{
+		isquote_env(input, i);
+		return ;
+	}
+	while ((*i) < ft_strlen(input) && (!ft_isspace(input[*i])
+			|| input[*i] == 31))
+	{
+		if (ft_isseparators(input[*i]))
+		{
+			(*i)++;
+			break ;
+		}
+		(*i)++;
+	}
 }
 
 char	*expand_env(t_exp *expand, t_envs *envs, char *input)

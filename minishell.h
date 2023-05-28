@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 21:36:54 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 12:54:37 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		check_ifseperator_file(t_exp *expand, int z);
 void	expand_if_seperator(t_exp *expand, char *str, size_t *i, size_t *j);
 void	expand_ifnt_seperator(t_exp *expand, char *str, size_t *i, size_t *j);
 void	check_dup_dollars(t_exp *expand, char *input, size_t *i);
+void	isquote_env(char *input, size_t *i);
 
 // environment variables functions
 void	clear_list_envs(t_envs **list);
