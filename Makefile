@@ -6,7 +6,7 @@
 #    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/05/27 20:53:45 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/05/30 20:09:33 by del-yaag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,22 @@ SRC = minishell.c \
 	  expand_checker.c \
 	  expand_func_tools.c \
 	  expand_tools.c \
-	  env_variables.c
-
+	  env_variables.c \
+	  syntax_error.c \
+	  echo_command.c \
+	  export.c \
+	  export_tools.c \
+	  export_helps.c \
+	  export_funcs.c \
+	  exit_function.c \
+	  exit_main.c \
+	  pwd.c \
+	  cd.c \
+	  unset.c
+	  
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 CC = cc
 RM = rm -f
 

@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:12:10 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 21:08:01 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:50:30 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,18 @@ void	check_dup_dollars(t_exp *expand, char *input, size_t *i)
 void	expand_compare(t_exp *expand, char *input, size_t *i)
 {
 	expand->cli_start = *i;
-	while (input[*i] && valid_expand(input[*i]))
+	if (input[*i] && valid_expand(input[*i]))
+		(*i)++;
+	while (input[*i] && ft_isalnum_expand(input[*i]))
 		(*i)++;
 }
 
-void	search_env(t_exp *expand, t_envs *envs, char *input, size_t *i)
+void	change_line_help(char *input, size_t *i)
 {
-	size_t	b;
-
-	expand->cli_end = *i - 1;
-	expand->tab = ft_strndup(input, expand->cli_start, expand->cli_end);
-	expand->str = ft_getenv(envs, expand->tab);
-	if (!expand->str)
+	if (*i < ft_strlen(input) && input[*i] != '?')
 	{
-		free(expand->tab);
-		b = expand->cli_start - 1;
-		while (b <= expand->cli_end)
-		{
-			input[b] = 31;
-			b++;
-		}
-		*i = b;
+		input[*i - 1] = 31;
+		input[*i] = 31;
 	}
 }
 
@@ -67,6 +58,7 @@ char	*change_line_input(t_exp *expand, t_envs *envs, char *input, size_t *i)
 	expand_compare(expand, input, i);
 	if (expand->cli_start == *i)
 	{
+		change_line_help(input, i);
 		expand->test = ft_strdup(input);
 		return (free(input), expand->test);
 	}
@@ -78,6 +70,5 @@ char	*change_line_input(t_exp *expand, t_envs *envs, char *input, size_t *i)
 	}
 	expand->str = handling_complecated_case(expand);
 	input = replace_word(expand, input, i);
-	free(expand->tab);
-	return (input);
+	return (free(expand->tab), input);
 }

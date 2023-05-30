@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:20:28 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 20:55:04 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 18:58:40 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,17 @@ void	add_envs(t_envs **envs, t_envs **head)
 	if (!(*envs))
 	{
 		*envs = malloc(sizeof(t_envs));
+		(*envs)->next = NULL;
 		*head = *envs;
 	}
 	else
 	{
 		(*envs)->next = malloc(sizeof(t_envs));
 		*envs = (*envs)->next;
+		(*envs)->next = NULL;
 	}
 	if (!(*envs))
 		clear_list_envs(envs);
-	(*envs)->next = NULL;
 }
 
 void	fill_envs(t_envs **envs, char **env)

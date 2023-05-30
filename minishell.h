@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/28 12:54:37 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/30 21:38:50 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,22 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef enum s_type
+{
+	WORD,
+	QUOTES,
+	SEPAR,
+	HER_EDOC,
+	APPEND,
+	RED_IN,
+	RED_OUT,
+	PIPE
+}	t_type;
+
 typedef struct s_token
 {
 	char			*string;
+	int				type;
 	struct s_token	*next;
 }	t_token;
 
@@ -85,6 +98,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strndup(char *str, int start, int end);
 char	*ft_strdup(char *src);
+void	ft_putstr_fd(char *s, int fd);
 
 // minishell tools
 char	*minishell_tools(t_token **token, t_envs *envs, char *input);
@@ -109,6 +123,9 @@ char	*expand_env(t_exp *expand, t_envs *envs, char *input);
 char	*expand_input(t_envs *envs, char *input);
 char	*remove_character(char *line, int c);
 
+// syntax error functions
+int		syntax_error(t_token *token);
+
 // check expand functions
 int		is_alpha(char c);
 int		ft_isalnum_expand(int c);
@@ -118,6 +135,52 @@ void	expand_if_seperator(t_exp *expand, char *str, size_t *i, size_t *j);
 void	expand_ifnt_seperator(t_exp *expand, char *str, size_t *i, size_t *j);
 void	check_dup_dollars(t_exp *expand, char *input, size_t *i);
 void	isquote_env(char *input, size_t *i);
+
+// echo functions
+void	echo_command(t_token *token, int fd);
+
+// export functions
+int		check_cases(t_envs *envs, char *str, int check);
+int		execute_export(char *str, t_envs *envs, int fd);
+int		export_handle(t_token *head, t_envs *envs, int fd);
+int		check_export(t_token **token, t_envs *envs, int fd);
+void	change_tmp(t_envs **envs, t_envs **tmp, t_envs **head);
+void	change_if_found(t_envs *envs, char *str);
+int		change_if_found_not_equal(t_envs *envs, char *str);
+int		check_value(t_envs *head, char *name, char *str);
+int		change_if_found_plus_equal(t_envs *envs, char *str);
+void	execute_env(t_envs *envs, int fd);
+void	execute_export_allone(t_envs *envs, int fd);
+int		equal_search(char *str, int fd);
+t_envs	*ft_lstadd_back(t_envs *lst);
+int		execute_equal_tool(char *str);
+char	*head_name(char *str, int flag);
+char	*head_value(char *str);
+void	execute_equal(t_envs *envs, char *str);
+void	execute_plus_equal(t_envs *envs, char *str);
+void	execute_not_equal(t_envs *envs, char *str);
+
+// exit functions
+void	ft_exit(t_token *token, t_envs *envs);
+void	ft_error(char *str, t_token *token, t_envs *envs, int choice);
+int		exit_cases(t_token *token, t_token *head, t_envs *envs);
+
+// pwd functions
+void	ft_pwd(t_token *token, t_envs *envs, int fd);
+
+// cd functions
+void	updating_pwd(t_envs *envs);
+void	executing_cd_allone(t_envs *envs);
+void	executing_last_cd(t_envs *envs);
+void	executing_cd(t_envs *envs, char *path);
+int		check_cd(t_token **token, t_envs *envs);
+
+// unset functions
+int		unset_protection(char *str);
+void	remove_env(t_envs *tmp);
+void	search_unset_env(char *str, t_envs *envs);
+void	unset_env(char *str, t_envs *envs);
+int		check_unset(t_token **token, t_envs *envs);
 
 // environment variables functions
 void	clear_list_envs(t_envs **list);
@@ -129,7 +192,7 @@ void	fill_envs(t_envs **envs, char **env);
 // handlers functions
 int		handle_char(t_token **token, char *input, size_t *i);
 void	handle_whitespace(char *input, size_t *i);
-void	handel_separators(t_token **token, char *input, size_t *i);
+int		handel_separators(t_token **token, char *input, size_t *i);
 int		double_qoutes(t_token **token, char *input, size_t *i);
 int		single_qoutes(t_token **token, char *input, size_t *i);
 

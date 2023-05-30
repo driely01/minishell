@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:34:42 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/28 12:53:43 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/28 17:19:55 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,26 @@ char	*expand_env(t_exp *expand, t_envs *envs, char *input)
 		expand->count = 0;
 	}
 	return (input);
+}
+
+void	search_env(t_exp *expand, t_envs *envs, char *input, size_t *i)
+{
+	size_t	b;
+
+	expand->cli_end = *i - 1;
+	expand->tab = ft_strndup(input, expand->cli_start, expand->cli_end);
+	expand->str = ft_getenv(envs, expand->tab);
+	if (!expand->str)
+	{
+		free(expand->tab);
+		b = expand->cli_start - 1;
+		while (b <= expand->cli_end)
+		{
+			input[b] = 31;
+			b++;
+		}
+		*i = b;
+	}
 }
 
 char	*expand_input(t_envs *envs, char *input)
