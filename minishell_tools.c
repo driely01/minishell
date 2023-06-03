@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:16:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 20:35:57 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:36:31 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,13 @@ char	*minishell_tools(t_token **token, t_envs *envs, char *input)
 	char	*trimed;
 	char	*line;
 
+	if (!input)
+		exit(0);
 	trimed = ft_strtrim(input, " \t\r\f\v");
 	if (!trimed)
 	{
 		free(input);
+		input = NULL;
 		return (NULL);
 	}
 	free(input);

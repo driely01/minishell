@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 11:19:32 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 21:21:39 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:39:44 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 static void	printf_echo_args(t_token *head, int is_option, int fd)
 {	
-	while (head && head->type != 2)
+	while (head && head->type < 2)
 	{
 		ft_putstr_fd(head->string, fd);
+		ft_putstr_fd(" ", fd);
 		head = head->next;
 	}
 	if (!is_option)

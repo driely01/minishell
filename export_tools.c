@@ -6,17 +6,17 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:27:06 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 21:41:15 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 13:59:34 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_env(t_envs *envs, int fd)
+void	execute_env(t_envs **envs, int fd)
 {
 	t_envs	*head;
 
-	head = envs;
+	head = *envs;
 	while (head)
 	{
 		if (head->value && head->value[0])
@@ -30,11 +30,11 @@ void	execute_env(t_envs *envs, int fd)
 	}
 }
 
-void	execute_export_allone(t_envs *envs, int fd)
+void	execute_export_allone(t_envs **envs, int fd)
 {
 	t_envs	*head;
 
-	head = envs;
+	head = *envs;
 	while (head)
 	{
 		if (!head->value)
@@ -84,14 +84,19 @@ int	equal_search(char *str, int fd)
 	return (0);
 }
 
-t_envs	*ft_lstadd_back(t_envs *lst)
+t_envs	*ft_lstadd_back(t_envs **lst)
 {
 	t_envs	*tmp;
 	t_envs	*new;
 
-	if (!lst)
-		return (NULL);
-	tmp = lst;
+	if (!(*lst))
+	{
+		*lst = malloc(sizeof(t_envs));
+		(*lst)->next = NULL;
+		printf("envs add back %p\n", *lst);
+		return (*lst);
+	}
+	tmp = *lst;
 	while (tmp -> next != NULL)
 	tmp = tmp -> next;
 	new = malloc(sizeof(t_envs));

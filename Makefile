@@ -6,7 +6,7 @@
 #    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/05/30 20:09:33 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/06/02 19:58:27 by del-yaag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,11 @@ SRC = minishell.c \
 	  exit_main.c \
 	  pwd.c \
 	  cd.c \
-	  unset.c
+	  unset.c signals.c execution.c minishell_utils.c cd_utils.c ../get_next_line/get_next_line.c
 	  
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include -fsanitize=address -g
 CC = cc
 RM = rm -f
 
@@ -54,10 +54,10 @@ NAME = minishell
 all: $(NAME)
 
 $(NAME): $(OBG)
-	$(CC) $(CFLAGS) -lreadline $(OBG) -o $(NAME)
+	$(CC) $(CFLAGS) -lreadline -L/Users/del-yaag/homebrew/opt/readline/lib $(OBG) -o $(NAME)
 
 %.o: %.c minishell.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS)  -c $< -o $@
 
 clean:
 	${RM} ${OBG}
@@ -67,4 +67,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re  
+.PHONY: all clean fclean re

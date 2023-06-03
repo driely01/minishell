@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:20:28 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/28 18:58:40 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:34:42 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,22 @@ void	add_envs(t_envs **envs, t_envs **head)
 		clear_list_envs(envs);
 }
 
-void	fill_envs(t_envs **envs, char **env)
+char	**add_env(char **env)
 {
+	char	**str;
+	size_t	len;
 	size_t	i;
-	t_envs	*head;
 
 	i = 0;
+	len = ft_strlen_2(env);
+	if (len == 0)
+		return (NULL);
+	str = malloc(sizeof(char *) * (len + 1));
 	while (env[i])
 	{
-		add_envs(envs, &head);
-		(*envs)->name = ft_strlen_var(env[i], '=');
-		(*envs)->value = ft_strdup(getenv((*envs)->name));
+		str[i] = ft_strdup(env[i]);
 		i++;
 	}
-	*envs = head;
+	str[i] = NULL;
+	return (str);
 }

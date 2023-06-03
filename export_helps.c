@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:29:11 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 11:07:08 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 13:56:42 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,32 @@ void	change_tmp(t_envs **envs, t_envs **tmp, t_envs **head)
 	}
 }
 
-void	change_if_found(t_envs *envs, char *str)
+void	change_if_found(t_envs **envs, char *str)
 {
 	t_envs	*head;
 	t_envs	*tmp;
 	char	*name;
 
 	name = head_name(str, 0);
-	head = envs;
+	head = *envs;
 	tmp = NULL;
 	while (head)
 	{
 		if (ft_strlen(head->name) == ft_strlen(name)
 			&& !strncmp(head->name, str, ft_strlen(name)))
-			change_tmp(&envs, &tmp, &head);
+			change_tmp(envs, &tmp, &head);
 		tmp = head;
 		head = head->next;
 	}
 	free(name);
 }
 
-int	change_if_found_not_equal(t_envs *envs, char *str)
+int	change_if_found_not_equal(t_envs **envs, char *str)
 {
 	t_envs	*head;
 	char	*name;
 
-	head = envs;
+	head = *envs;
 	name = head_name(str, 0);
 	while (head)
 	{
@@ -87,12 +87,12 @@ int	check_value(t_envs *head, char *name, char *str)
 	return (free(name), free(value), 1);
 }
 
-int	change_if_found_plus_equal(t_envs *envs, char *str)
+int	change_if_found_plus_equal(t_envs **envs, char *str)
 {
 	t_envs	*head;
 	char	*name;
 
-	head = envs;
+	head = *envs;
 	name = head_name(str, 1);
 	while (head)
 	{

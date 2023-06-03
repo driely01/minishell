@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:27:49 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/29 21:28:23 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 14:12:17 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*head_value(char *str)
 	return (string);
 }
 
-void	execute_equal(t_envs *envs, char *str)
+void	execute_equal(t_envs **envs, char *str)
 {
 	t_envs	*head;
 
@@ -58,7 +58,7 @@ void	execute_equal(t_envs *envs, char *str)
 	head->value = head_value(str);
 }
 
-void	execute_plus_equal(t_envs *envs, char *str)
+void	execute_plus_equal(t_envs **envs, char *str)
 {
 	t_envs	*head;
 
@@ -67,7 +67,7 @@ void	execute_plus_equal(t_envs *envs, char *str)
 	head->value = head_value(str);
 }
 
-void	execute_not_equal(t_envs *envs, char *str)
+void	execute_not_equal(t_envs **envs, char *str)
 {
 	t_envs	*head;
 

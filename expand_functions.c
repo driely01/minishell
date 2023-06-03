@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:05:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 20:08:52 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:09:34 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ char	*replace_word(t_exp *expand, char *line, size_t *z)
 			keep_line_byword(expand, str, line);
 	}
 	free(line);
+	free(expand->str);
 	return (str);
 }
 
-char	*ft_strenv(t_exp *expand, size_t z)
+char	*ft_strenv(t_exp *expand, size_t z, int flag)
 {
 	size_t	i;
 	size_t	j;
@@ -82,23 +83,30 @@ char	*ft_strenv(t_exp *expand, size_t z)
 			expand_ifnt_seperator(expand, str, &i, &j);
 	}
 	str[j] = '\0';
+	if (flag == 1)
+		free(expand->str);
 	return (str);
 }
 
 char	*handling_complecated_case(t_exp *expand)
 {
+	int	flag;
 	int	i;
 
 	i = 0;
+	flag = 0;
 	while (expand->str[i])
 	{
 		if (ft_isseparators(expand->str[i]))
 		{
-			expand->str = ft_strenv(expand, i);
+			expand->str = ft_strenv(expand, i, flag);
 			i++;
 			i++;
+			flag = 1;
 		}
 		i++;
 	}
+	if (flag == 0)
+		expand->str = ft_strdup(expand->str);
 	return (expand->str);
 }

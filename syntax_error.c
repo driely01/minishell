@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 20:33:30 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/29 17:01:43 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 13:19:46 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void	typed_sep(t_token *token)
 			token->type = HER_EDOC;
 		else if (token->string[0] == '>' && token->string[1] == '>')
 			token->type = APPEND;
+		if (token->string[0] == '<' && token->string[1] == '<'
+			&& token->next && token->next->type < 2)
+			token->next->type = DELIM;
 	}
 }
 

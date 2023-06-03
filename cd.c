@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:06:20 by markik            #+#    #+#             */
-/*   Updated: 2023/05/30 21:04:05 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 18:29:03 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,9 @@ void	updating_pwd(t_envs *envs)
 	tmp_old->value = ft_strdup(tmp_new->value);
 	str = getcwd(NULL, 0);
 	if (!str)
-	{
-		if (i)
-		{
-			printf("cd: error retrieving current directory: getcwd: cannot\
-			access parent directories: No such file or directory\n");
-			str = ft_strdup(tmp_new->value);
-			free(tmp_new->value);
-			tmp_new->value = ft_strjoin(str, "/..");
-		}
-		i = 1;
-	}
+		updating_pwd_tool(tmp_new, &i);
 	else
-	{
-		free(tmp_new->value);
-		tmp_new->value = ft_strdup(str);
-		free(str);
-	}
+		updating_pwd_tools(tmp_new, str, &i);
 }
 
 void	executing_cd_allone(t_envs *envs)
@@ -105,6 +91,8 @@ int	check_cd(t_token **token, t_envs *envs)
 				else
 					printf("Minishell: cd: %s: invalid option\n", head->string);
 			}
+			else if (head->type >= 2)
+				return (0);
 			else
 				executing_cd(envs, head->string);
 		}

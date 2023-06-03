@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:29:36 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 21:14:40 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 19:03:59 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,29 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
-void	ft_error(char *str, t_token *token, t_envs *envs, int choice)
+void	ft_error(char *str, t_token *token, t_envs *envs, int flag)
 {
-	if (choice == 1)
-	{
+	if (!flag)
+	{	
 		ft_putstr_fd("exit\nbash: exit: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
+	}
 		clear_list(&token);
 		clear_list_envs(&envs);
 		exit(255);
-	}
-	else if (choice == 2)
-	{
-		clear_list(&token);
-		clear_list_envs(&envs);
-		ft_putstr_fd("exit\n", 2);
-		exit(0);
-	}
 }
 
-void	ft_exit(t_token *token, t_envs *envs)
+void	ft_error_two(t_token *token, t_envs *envs, int flag)
+{
+	if (!flag)
+		ft_putstr_fd("exit\n", 2);
+	clear_list(&token);
+	clear_list_envs(&envs);
+	exit(0);
+}
+
+void	ft_exit(t_token *token, t_envs *envs, int flag)
 {
 	t_token				*head;
 
@@ -54,12 +56,17 @@ void	ft_exit(t_token *token, t_envs *envs)
 	while (token)
 	{
 		if (!ft_strncmp(token->string, "exit", 4)
-			&& ft_strlen(token->string) == ft_strlen("exit"))
+			&& ft_strlen(token->string) == ft_strlen("exit")
+			&& token->type < 2)
 		{
 			token = token->next;
-			exit_cases(token, head, envs);
+			if (exit_cases(token, head, envs, flag))
+			{
+				if (!flag)
+					ft_putstr_fd("exit\n", 2);
+				exit(0);
+			}
 		}
 		token = token->next;
 	}
 }
-

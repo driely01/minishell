@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:57:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 21:42:28 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:37:18 by markik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ void	ft_pwd(t_token *token, t_envs *envs, int fd)
 				ft_putstr_fd("\n", fd);
 			}
 			else
-			{
 				if (!pwd_cases(&token, str, fd))
 					break ;
-			}
 		}
 		if (token)
 			token = token->next;

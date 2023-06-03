@@ -6,13 +6,13 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 20:58:40 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/30 21:41:38 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/03 13:52:28 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_cases(t_envs *envs, char *str, int check)
+int	check_cases(t_envs **envs, char *str, int check)
 {
 	if (check == 2)
 		return (2);
@@ -29,7 +29,7 @@ int	check_cases(t_envs *envs, char *str, int check)
 	return (0);
 }
 
-int	execute_export(char *str, t_envs *envs, int fd)
+int	execute_export(char *str, t_envs **envs, int fd)
 {
 	int	check;
 
@@ -51,7 +51,7 @@ int	execute_export(char *str, t_envs *envs, int fd)
 	return (0);
 }
 
-int	export_handle(t_token *head, t_envs *envs, int fd)
+int	export_handle(t_token *head, t_envs **envs, int fd)
 {
 	head = head->next;
 	if (head->string[0] == '-')
@@ -76,7 +76,7 @@ int	export_handle(t_token *head, t_envs *envs, int fd)
 	return (1);
 }
 
-int	check_export(t_token **token, t_envs *envs, int fd)
+int	check_export(t_token **token, t_envs **envs, int fd)
 {
 	t_token	*head;
 
