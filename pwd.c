@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:57:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/02 19:37:18 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/04 11:45:23 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	ft_pwd(t_token *token, t_envs *envs, int fd)
 
 	str = ft_getenv(envs, "PWD");
 	if (!str)
-	{
-		perror(str);
 		return ;
-	}
 	while (token)
 	{
 		if (!ft_strncmp(token->string, "pwd", 3)

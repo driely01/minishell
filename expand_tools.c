@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_tools.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:12:10 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/02 19:35:32 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/04 18:08:38 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,23 @@ void	check_dup_dollars(t_exp *expand, char *input, size_t *i)
 void	expand_compare(t_exp *expand, char *input, size_t *i)
 {
 	expand->cli_start = *i;
-	if (input[*i] && valid_expand(input[*i]))
+	if (input[*i] >= '0' && input[*i] <= '9')
+	{	
 		(*i)++;
-	while (input[*i] && ft_isalnum_expand(input[*i]))
-		(*i)++;
+		return ;
+	}
+	else
+	{	
+		if (input[*i] && valid_expand(input[*i]))
+			(*i)++;
+		while (input[*i] && ft_isalnum_expand(input[*i]))
+			(*i)++;
+	}
 }
 
 void	change_line_help(char *input, size_t *i)
 {
-	if (*i < ft_strlen(input) && input[*i] != '?')
+	if (*i < ft_strlen(input) && input[*i] != '?' && ft_isalnum_expand(input[*i]))
 	{
 		input[*i - 1] = 31;
 		input[*i] = 31;

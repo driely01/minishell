@@ -6,7 +6,7 @@
 #    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/06/02 19:58:27 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/06/05 13:49:13 by del-yaag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,16 @@ SRC = minishell.c \
 	  exit_main.c \
 	  pwd.c \
 	  cd.c \
-	  unset.c signals.c execution.c minishell_utils.c cd_utils.c ../get_next_line/get_next_line.c
+	  unset.c \
+	  signals.c \
+	  minishell_utils.c \
+	  cd_utils.c \
+	  ft_atoi_itoa.c ft_itoa.c \
+	  execution.c \
 	  
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include #-fsanitize=address -g
 CC = cc
 RM = rm -f
 

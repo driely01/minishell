@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tools.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:16:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/02 19:36:31 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/04 18:03:15 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ char	*minishell_tools(t_token **token, t_envs *envs, char *input)
 	free(input);
 	line = expand_input(envs, trimed);
 	line = remove_character(line, 31);
+	line = dollar_status_check(line);
 	if (tokenizer(token, line) == -1)
 		return (clear_list(token), free(line), NULL);
 	if (!syntax_error(*token))

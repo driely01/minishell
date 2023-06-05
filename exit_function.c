@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:02:30 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/03 19:03:55 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:28:34 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static size_t	skip_spaces(char *str, int *sign)
 	return (i);
 }
 
-static unsigned long long	ft_atoi(char *str, t_token *token, t_envs *envs, int flag)
+static unsigned long long	ft_atoi_exit(char *str, t_token *token, t_envs *envs, int flag)
 {
 	unsigned long long	res;
 	unsigned long long	mood;
@@ -78,7 +78,7 @@ int	exit_cases(t_token *token, t_token *head, t_envs *envs, int flag)
 		ft_error_two(head, envs, flag);
 	else if (token && is_number(token->string) && !token->next)
 	{
-		number = ft_atoi(token->string, head, envs, flag);
+		number = ft_atoi_exit(token->string, head, envs, flag);
 		if (!flag)
 			ft_putstr_fd("exit\n", 2);
 		exit (number);

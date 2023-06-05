@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/03 18:53:33 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:15:46 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <string.h>
 # include <limits.h>
 # include <signal.h>
-# include "../get_next_line/get_next_line.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -41,6 +40,7 @@ typedef struct s_token
 {
 	char			*string;
 	int				type;
+	int				here_exp;
 	struct s_token	*next;
 }	t_token;
 
@@ -79,6 +79,29 @@ typedef struct s_expand
 	int		end;
 }	t_exp;
 
+typedef struct s_exec
+{
+	size_t	pipe_count;
+	pid_t	pid;
+	pid_t	pid_child1;
+	pid_t	pid_child2;
+	pid_t	pid_child3;
+	char	**path;
+	char	**command;
+	char	*semi_command;
+	char	*buffer;
+	char	*stop_sign;
+	int		here_fd;
+	int		fake_status;
+	int		fd[2];
+	int		**pipe_fd;
+	int		infile_fd;
+	int		outfile_fd;
+}	t_exec;
+
+
+int	status;
+
 // list functions
 void	add_node(t_token **token);
 void	clear_list(t_token **list);
@@ -87,6 +110,8 @@ char	**fill_envs(t_envs **envs, char **env);
 void	updating_pwd_tool(t_envs *tmp_new, int *i);
 void	updating_pwd_tools(t_envs *tmp_new, char *str, int *i);
 int	check_cd(t_token **token, t_envs *envs);
+
+
 // check functions
 size_t	ft_strlen(const char *str);
 int		ft_isalnum(int c);
@@ -108,6 +133,8 @@ char	*ft_strdup(char *src);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen_2(char **str);
 void	free_split(char **split);
+int		ft_atoi(const char *str);
+char	*ft_itoa(int n);
 
 // minishell tools
 char	*minishell_tools(t_token **token, t_envs *envs, char *input);
@@ -232,8 +259,11 @@ char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t number, size_t size);
 
 // execution cmd
-void	execute_cmd(t_token **token, t_envs **envs, char **env);
-void	builtin_func(t_token **token, t_envs **envs, int outfile, int flag);
-pid_t	execute_cmd_tools(t_token **token, t_envs **envs, char **env, char **path, int infile, int outfile, int **pipe_fd);
+void    execute_cmd(t_token **token, t_envs **envs, char **env);
+void    builtin_func(t_token **token, t_envs **envs, int outfile, int flag);
+pid_t    execute_cmd_tools(t_token **token, t_envs **envs, char **env, char **path, int infile, int outfile, int **pipe_fd);
+char    *replace_status(char *line, size_t i);
+char 	*dollar_status_check(char *line);
+char    *ft_itoa(int n);
 
 #endif

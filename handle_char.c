@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 17:27:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/29 18:50:41 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:22:06 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	fill_char(t_token **token, t_var *var)
 	var->str = ft_strdup(head->next->string);
 	head->string = ft_strjoin(head->string, var->str);
 	head->type = WORD;
+	head->here_exp = QUOTES;
 	free(head->next->string);
 	free(head->next);
 	head->next = NULL;
@@ -48,6 +49,7 @@ int	handle_char(t_token **token, char *input, size_t *i)
 		head = head->next;
 	head->string = ft_strndup(input, var.start, var.end);
 	head->type = WORD;
+	head->here_exp = WORD;
 	if (input[*i] == 34)
 	{
 		if (double_qoutes(token, input, i) == -1)

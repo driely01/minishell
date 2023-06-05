@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:55:38 by markik            #+#    #+#             */
-/*   Updated: 2023/06/03 21:56:53 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:55:50 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ pid_t    exec_command(t_token **token, t_envs **envs, char **command, char **pat
     pid_t   pid;
     
     path = if_path(command[0], path_splied);
+	signal(SIGINT, SIG_IGN);
     pid = fork();
     if (pid == -1)
     {
@@ -93,6 +94,7 @@ pid_t    exec_command(t_token **token, t_envs **envs, char **command, char **pat
     }
     else if(pid == 0)
     {
+		signal(SIGINT, SIG_DFL);
         if (infile_fd != STDIN_FILENO)
         {
             dup2(infile_fd, 0);
@@ -123,7 +125,7 @@ pid_t    exec_command(t_token **token, t_envs **envs, char **command, char **pat
             ft_putstr_fd("Minishell: ", 2);
             ft_putstr_fd(command[0], 2);
             ft_putstr_fd(" command not found\n", 2);
-            exit(0);
+            exit(1);
         }
     }
     free(path);
@@ -202,17 +204,23 @@ t_token    *head_next_pipe(t_token **token, size_t i)
 
 void    pipe_executing(t_token **token, t_envs **envs, char **env, char **path)
 {
-    t_token *head;
-    size_t pipe_count = pipe_exist(token);
-    pid_t   pid_child1;
-    pid_t   pid_child2;
-    pid_t   pid_child3;
-    size_t  i = 0;
-    int infile_fd = STDIN_FILENO;
-    int outfile_fd = STDOUT_FILENO;
+    t_token	*head;
+    size_t	pipe_count;
+    pid_t	pid_child1;
+    pid_t	pid_child2;
+    pid_t	pid_child3;
+    size_t	i;
+    int		**pipe_fd;
+    int		infile_fd;
+    int		outfile_fd;
+    
+	i = 0;
+	pipe_count = pipe_exist(token);
+	infile_fd = STDIN_FILENO;
+	outfile_fd = STDOUT_FILENO;
     if (!pipe_count)
         return ;
-    int **pipe_fd = malloc(sizeof(int *) * (pipe_count + 1));
+    pipe_fd = malloc(sizeof(int *) * (pipe_count + 1));
     while(i < pipe_count)
     {
         pipe_fd[i] = malloc(sizeof(int) * 2);
@@ -239,34 +247,60 @@ void    pipe_executing(t_token **token, t_envs **envs, char **env, char **path)
         close(pipe_fd[i][1]);
         i++;
     }
-    waitpid(pid_child1, NULL, 0);
-    waitpid(pid_child2, NULL, 0);
-    waitpid(pid_child3, NULL, 0);
+    waitpid(pid_child1, &status, 0);
+    waitpid(pid_child2, &status, 0);
+    waitpid(pid_child3, &status, 0);
+	signal(SIGINT, signal_handler);
 }
 
-int    _here_doc(char *argv)
+int    _here_doc(char *argv, t_token **token, t_envs *envs)
 {
+    pid_t	pid;
 	char	*buffer;
 	char	*stop_sign;
-    int fd[2];
+    int		fake_status;
+    int		fd[2];
 
     pipe(fd);
-	stop_sign = ft_strjoiness(argv, "\n");
-	while (1)
-	{
-		write(2, "heredoc> ", 10);
-		buffer = get_next_line(0);
-		if (buffer == NULL || \
-		!ft_strncmp(buffer, stop_sign, ft_strlen(stop_sign)))
-		{
-			free(stop_sign);
-			free(buffer);
-			break ;
-		}
-		write(fd[1], buffer, ft_strlen(buffer));
-		free(buffer);
-	}
+    signal(SIGINT, SIG_IGN);
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        return 0;
+    }
+    else if (pid == 0)
+    {
+		stop_sign = ft_strdup(argv);
+        signal(SIGINT, SIG_DFL);
+        while (1)
+        {
+            buffer = readline("heredoc> ");
+            if (buffer == NULL || (ft_strlen(buffer) == ft_strlen(stop_sign)
+                && (!ft_strncmp(buffer, stop_sign, ft_strlen(stop_sign)))))
+            {
+                free(stop_sign);
+                free(buffer);
+                break ;
+            }
+			if ((*token) && (*token)->type == 8 && (*token)->here_exp == 0)
+			{
+				buffer = expand_input(envs, buffer);
+				buffer = remove_character(buffer, 31);
+			}
+            write(fd[1], buffer, ft_strlen(buffer));
+            write(fd[1], "\n", 1);
+            free(buffer);
+        }
+        close(fd[0]);
+        close(fd[1]);
+        exit(0);
+    }
     close(fd[1]);
+    waitpid(pid, &fake_status, 0);
+    signal(SIGINT, signal_handler);
+    if (fake_status == 2)
+        return (-1);
     return (fd[0]);
 }
 
@@ -275,19 +309,23 @@ pid_t    execute_cmd_tools(t_token **token, t_envs **envs, char **env, char **pa
     t_token	*head;
 	t_token	*tmp;
     pid_t	pid;
-	char	*semi_command=NULL;
-    char    **command=NULL;
-	int		haha;
+	char	*semi_command;
+    char	**command;
+	int		here_fd;
 
+	command = NULL;
+	semi_command = NULL;
     head = *token;
     while(head)
     {
         if (head->type == 3)
         {
             head = head->next;
-            haha = _here_doc(head->string);
-            if (head->next)
-				infile_fd = haha;
+            here_fd = _here_doc(head->string, &head, *envs);
+            if (here_fd == -1)
+                return -1;
+            if (head->next || tmp->type < 2)
+				infile_fd = here_fd;
         }
         else if (head->type == 5)
         {
@@ -354,7 +392,8 @@ void    execute_cmd(t_token **token, t_envs **envs, char **env)
     else
     {
         pid = execute_cmd_tools(token, envs, env, path, STDIN_FILENO, STDOUT_FILENO, NULL);
-        waitpid(pid, NULL, 0);
+        waitpid(pid, &status, 0);
+		signal(SIGINT, signal_handler);
     }
 	if (path)
     	free_split(path);

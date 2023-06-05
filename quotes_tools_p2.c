@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:51:23 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/28 18:59:21 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/05 13:22:39 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	fill_and_join(t_token **token, t_var *var, char *input, int choice)
 			head = head->next;
 		head->string = ft_strndup(input, var->start, var->end);
 		head->type = QUOTES;
+		head->here_exp = QUOTES;
 		head->next = NULL;
 	}
 	else

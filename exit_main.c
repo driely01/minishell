@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:29:36 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/03 19:03:59 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/04 18:30:36 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	ft_error(char *str, t_token *token, t_envs *envs, int flag)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 	}
-		clear_list(&token);
-		clear_list_envs(&envs);
-		exit(255);
+	clear_list(&token);
+	clear_list_envs(&envs);
+	exit(255);
 }
 
 void	ft_error_two(t_token *token, t_envs *envs, int flag)
