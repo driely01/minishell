@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:27:49 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/04 16:14:57 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:31:38 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*head_value(char *str)
 	end = ft_strlen(str) - 1;
 	if (start > end)
 	{
-		string = ft_strdup("\0");
+		string = ft_strdup("\31");
 		return (string);
 	}
 	string = ft_strndup(str, start, end);

@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 14:06:20 by markik            #+#    #+#             */
-/*   Updated: 2023/06/04 16:15:45 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 16:53:00 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ void	updating_pwd(t_envs *envs)
 	static int	i;
 
 	head = envs;
+	tmp_old = NULL;
+	tmp_new = NULL;
 	while (head)
 	{
-		if (head->name && ft_strlen(head->name) == ft_strlen("OLDPWd")
-			&& !ft_strncmp(head->name, "OLDPWD", ft_strlen("OLDPWD")))
-			tmp_old = head;
-		else if (head->name && ft_strlen(head->name) == ft_strlen("PWD")
-			&& !ft_strncmp(head->name, "PWD", ft_strlen("PWD")))
-			tmp_new = head;
-			head = head->next;
+		update_tmp(head, &tmp_old, &tmp_new);
+		head = head->next;
 	}
-	free(tmp_old->value);
-	tmp_old->value = ft_strdup(tmp_new->value);
+	if (tmp_old && tmp_old->value)
+	{
+		free(tmp_old->value);
+		tmp_old->value = ft_strdup(tmp_new->value);
+	}
 	str = getcwd(NULL, 0);
 	if (!str)
 		updating_pwd_tool(tmp_new, &i);
@@ -47,7 +47,8 @@ void	executing_cd_allone(t_envs *envs)
 	str = ft_getenv(envs, "HOME");
 	if (!str || chdir(str))
 	{
-		printf("Minishell: cd: HOME not set\n");
+		g_status = 256;
+		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 		return ;
 	}
 	updating_pwd(envs);
@@ -59,14 +60,22 @@ void	executing_last_cd(t_envs *envs)
 
 	str = ft_getenv(envs, "OLDPWD");
 	if (!str || chdir(str))
-		printf("Minishell: cd: OLDPWD not set\n");
+	{
+		g_status = 256;
+		ft_putstr_fd("Minishell: cd: OLDPWD not set\n", 2);
+		return ;
+	}
 	updating_pwd(envs);
 }
 
 void	executing_cd(t_envs *envs, char *path)
 {
 	if (!path || chdir(path))
+	{
 		perror("cd");
+		g_status = 256;
+		return ;
+	}
 	updating_pwd(envs);
 }
 
@@ -82,19 +91,8 @@ int	check_cd(t_token **token, t_envs *envs)
 			return (executing_cd_allone(envs), 0);
 		else
 		{
-			head = head->next;
-			if (head->string[0] == '-')
-			{
-				if (head && ft_strlen(head->string) == ft_strlen("-")
-					&& !ft_strncmp(head->string, "-", ft_strlen("-")))
-					executing_last_cd(envs);
-				else
-					printf("Minishell: cd: %s: invalid option\n", head->string);
-			}
-			else if (head->type >= 2)
+			if (!help_cd(head, envs))
 				return (0);
-			else
-				executing_cd(envs, head->string);
 		}
 	}
 	return (0);

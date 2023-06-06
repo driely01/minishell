@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 16:57:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/04 11:45:23 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:08:47 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	pwd_cases(t_token **token, char *str, int fd)
 	(*token) = (*token)->next;
 	if ((*token) && (*token)->string[0] == '-')
 	{
+		g_status = 256;
 		ft_putstr_fd("Minishell: pwd: ", fd);
 		ft_putstr_fd((*token)->string, fd);
 		ft_putstr_fd(": invalid option\n", fd);
@@ -36,7 +37,8 @@ void	ft_pwd(t_token *token, t_envs *envs, int fd)
 {
 	char	*str;
 
-	str = ft_getenv(envs, "PWD");
+	(void)envs;
+	str = getcwd(NULL, 0);
 	if (!str)
 		return ;
 	while (token)
@@ -56,4 +58,5 @@ void	ft_pwd(t_token *token, t_envs *envs, int fd)
 		if (token)
 			token = token->next;
 	}
+	free(str);
 }

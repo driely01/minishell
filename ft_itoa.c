@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 15:41:15 by markik            #+#    #+#             */
-/*   Updated: 2023/06/04 17:19:37 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/06 18:23:39 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,38 @@
 
 char	*replace_status(char *line, size_t i)
 {
-	char	*char_status;
-	size_t len_line;
-	size_t	len_status;
-	char	*str;
-	size_t	j;
-	size_t	a;
-	size_t	b;
+	t_stat	stat;
 
-	char_status = ft_itoa(status>>8);
-	len_status = ft_strlen(char_status);
-	len_line = ft_strlen(line);
-	j = 0;
-	a = 0;
-	b = 0;
-	str = malloc(sizeof(char) * (len_line - ft_strlen("$?") + len_status) + 2);
-	while(j < len_line)
+	stat.char_status = ft_itoa(g_status >> 8);
+	stat.len_status = ft_strlen(stat.char_status);
+	stat.len_line = ft_strlen(line);
+	stat.j = 0;
+	stat.a = 0;
+	stat.b = 0;
+	stat.str = malloc(sizeof(char) * (stat.len_line - ft_strlen("$?")
+				+ stat.len_status) + 2);
+	while (stat.j < stat.len_line)
 	{
-		if (j == i)
+		if (stat.j == i)
 		{
-			while(char_status[a])
-			{
-				str[b] = char_status[a];
-				a++;
-				b++;
-			}
-			j = i + 2;
+			while (stat.char_status[stat.a])
+				stat.str[stat.b++] = stat.char_status[stat.a++];
+			stat.j = i + 2;
 		}
-		str[b] = line[j];
-		b++;
-		j++;
+		stat.str[stat.b++] = line[stat.j++];
 	}
-    str[b] = '\0';
-    free(char_status);
+	stat.str[stat.b] = '\0';
+	free(stat.char_status);
 	free(line);
-	return (str);
+	return (stat.str);
 }
 
-char *dollar_status_check(char *line)
+char	*dollar_status_check(char *line)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	while(line[i])
+	while (line[i])
 	{
 		if (line[i + 1] && line[i] == '$' && line[i + 1] == '?')
 		{

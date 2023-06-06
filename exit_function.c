@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 13:02:30 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/04 18:28:34 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:16:54 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static size_t	skip_spaces(char *str, int *sign)
 	return (i);
 }
 
-static unsigned long long	ft_atoi_exit(char *str, t_token *token, t_envs *envs, int flag)
+static unsigned long long	ft_atoi_exit(char *str, t_token *token,
+	t_envs *envs, int flag)
 {
 	unsigned long long	res;
 	unsigned long long	mood;
@@ -88,7 +89,10 @@ int	exit_cases(t_token *token, t_token *head, t_envs *envs, int flag)
 	else if (token && token->type < 2 && token->next->type < 2)
 	{
 		if (!flag)
+		{
 			ft_putstr_fd("exit\nbash: exit: too many arguments\n", 2);
+			g_status = 256;
+		}
 		return (0);
 	}
 	return (1);

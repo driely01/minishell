@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:12:10 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/04 18:08:38 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:17:24 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	expand_compare(t_exp *expand, char *input, size_t *i)
 
 void	change_line_help(char *input, size_t *i)
 {
-	if (*i < ft_strlen(input) && input[*i] != '?' && ft_isalnum_expand(input[*i]))
+	if (*i < ft_strlen(input) && input[*i] != '?'
+		&& ft_isalnum_expand(input[*i]))
 	{
 		input[*i - 1] = 31;
 		input[*i] = 31;

@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/30 11:42:44 by markik            #+#    #+#             */
-/*   Updated: 2023/06/03 11:30:54 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:38:34 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	unset_protection(char *str)
 	{
 		if (!ft_isalnum_expand(str[i]) && str[i] != '_')
 		{
-			printf("unset: not an identifier: %s\n", str);
+			g_status = 256;
+			ft_putstr_fd("unset: not an identifier: ", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd("\n", 2);
 			return (1);
 		}
 		i++;
@@ -36,39 +39,21 @@ void	remove_env(t_envs **tmp)
 	free((*tmp));
 }
 
-void	search_unset_env(char *str, t_envs **envs)
+void	unset_error(t_token *head, int choice)
 {
-	t_envs	*head;
-	t_envs	*tmp;
-
-	head = (*envs);
-	tmp = NULL;
-	while (head)
+	g_status = 256;
+	if (choice == 1)
 	{
-		if (head && ft_strlen(head->name) == ft_strlen(str) \
-				&& !ft_strncmp(head->name, str, ft_strlen(str)))
-		{
-			if (!tmp)
-				(*envs) = (*envs)->next;
-			else
-				tmp->next = head->next;
-			remove_env(&head);
-			break ;
-		}
-		tmp = head;
-		head = head->next;
+		ft_putstr_fd("Minishell: unset: ", 2);
+		ft_putstr_fd(head->string, 2);
+		ft_putstr_fd(": invalid option\n", 2);
 	}
-}
-
-void	unset_env(char *str, t_envs **envs)
-{
-	if (!valid_expand(str[0]))
+	else if (choice == 2)
 	{
-		printf("unset: not an identifier: %s\n", str);
-		return ;
+		ft_putstr_fd("unset: not an identifier: ", 2);
+		ft_putstr_fd(head->string, 2);
+		ft_putstr_fd("\n", 2);
 	}
-	if (!unset_protection(str))
-		search_unset_env(str, envs);
 }
 
 int	check_unset(t_token **token, t_envs **envs)
@@ -85,13 +70,11 @@ int	check_unset(t_token **token, t_envs **envs)
 		{
 			head = head->next;
 			if (head->string[0] == '-')
-				return (printf("Minishell: unset: %s\
-							: invalid option\n", head->string), 0);
+				return (unset_error(head, 1), 0);
 			while (head && head->type < 2)
 			{
 				if (!ft_strncmp(head->string, "=", ft_strlen("=")))
-					return (printf("unset: not an \
-								identifier: %s\n", head->string), 0);
+					return (unset_error(head, 2), 0);
 				unset_env(head->string, envs);
 				head = head->next;
 			}

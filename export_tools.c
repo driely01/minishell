@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:27:06 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/03 13:59:34 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:23:29 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,30 @@ void	execute_env(t_envs **envs, int fd)
 	}
 }
 
+void	print_export(t_envs *head, int fd, int choice)
+{
+	if (choice == 1)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(head->name, fd);
+		ft_putstr_fd("=\"\"\n", fd);
+	}
+	else if (choice == 2)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(head->name, fd);
+		ft_putstr_fd("\n", fd);
+	}
+	else if (choice == 3)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(head->name, fd);
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd(head->value, fd);
+		ft_putstr_fd("\n", fd);
+	}
+}
+
 void	execute_export_allone(t_envs **envs, int fd)
 {
 	t_envs	*head;
@@ -38,25 +62,11 @@ void	execute_export_allone(t_envs **envs, int fd)
 	while (head)
 	{
 		if (!head->value)
-		{	
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(head->name, fd);
-			ft_putstr_fd("=\"\"\n", fd);
-		}
+			print_export(head, fd, 1);
 		else if (!head->value[0])
-		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(head->name, fd);
-			ft_putstr_fd("\n", fd);
-		}
+			print_export(head, fd, 2);
 		else
-		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(head->name, fd);
-			ft_putstr_fd("=", fd);
-			ft_putstr_fd(head->value, fd);
-			ft_putstr_fd("\n", fd);
-		}
+			print_export(head, fd, 3);
 		head = head->next;
 	}
 }
@@ -74,6 +84,7 @@ int	equal_search(char *str, int fd)
 			return (1);
 		else if (!ft_isalnum_expand(str[i]) && str[i] != '_')
 		{
+			g_status = 256;
 			ft_putstr_fd("export: not an identifier: ", fd);
 			write(fd, &str[i], 1);
 			write(fd, "\n", 1);
@@ -93,7 +104,6 @@ t_envs	*ft_lstadd_back(t_envs **lst)
 	{
 		*lst = malloc(sizeof(t_envs));
 		(*lst)->next = NULL;
-		printf("envs add back %p\n", *lst);
 		return (*lst);
 	}
 	tmp = *lst;
@@ -103,18 +113,4 @@ t_envs	*ft_lstadd_back(t_envs **lst)
 	tmp -> next = new;
 	new->next = NULL;
 	return (tmp->next);
-}
-
-int	execute_equal_tool(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		i++;
-	}
-	return (0);
 }

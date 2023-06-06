@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 20:58:40 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/04 16:01:20 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 17:51:20 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	execute_export(char *str, t_envs **envs, int fd)
 
 	if (!valid_expand(str[0]))
 	{
+		g_status = 256;
 		ft_putstr_fd("export: not an identifier: ", fd);
 		write(fd, &str[0], 1);
 		write(fd, "\n", 1);
@@ -56,6 +57,7 @@ int	export_handle(t_token *head, t_envs **envs, int fd)
 	head = head->next;
 	if (head->string[0] == '-')
 	{
+		g_status = 256;
 		ft_putstr_fd("Minishell: export: ", fd);
 		ft_putstr_fd(head->string, fd);
 		ft_putstr_fd(": invalid option\n", fd);
@@ -65,6 +67,7 @@ int	export_handle(t_token *head, t_envs **envs, int fd)
 	{
 		if (!ft_strncmp(head->string, "=", ft_strlen("=")))
 		{
+			g_status = 256;
 			ft_putstr_fd("export: not an identifier: ", fd);
 			ft_putstr_fd(head->string, fd);
 			write(fd, "\n", 1);
@@ -85,10 +88,7 @@ int	check_export(t_token **token, t_envs **envs, int fd)
 		&& !ft_strncmp(head->string, "env", ft_strlen("env")))
 	{
 		head = head->next;
-		if (head && head->type < 2)
-			ft_putstr_fd("env: illegal option or arguments\n", fd);
-		else
-			execute_env(envs, fd);
+		export_ex(head, envs, fd);
 	}
 	else if (head && ft_strlen(head->string) == ft_strlen("export")
 		&& !ft_strncmp(head->string, "export", ft_strlen("export")))

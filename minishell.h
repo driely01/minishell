@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 21:45:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/05 13:15:46 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:21:15 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+int	g_status;
+
 typedef enum s_type
 {
 	WORD,
@@ -35,6 +37,14 @@ typedef enum s_type
 	PIPE,
 	DELIM
 }	t_type;
+
+typedef struct s_arg
+{
+	char			*string;
+	int				type;
+	int				here_exp;
+	struct s_token	*next;
+}	t_arg;
 
 typedef struct s_token
 {
@@ -81,26 +91,27 @@ typedef struct s_expand
 
 typedef struct s_exec
 {
-	size_t	pipe_count;
-	pid_t	pid;
-	pid_t	pid_child1;
-	pid_t	pid_child2;
-	pid_t	pid_child3;
 	char	**path;
 	char	**command;
 	char	*semi_command;
-	char	*buffer;
-	char	*stop_sign;
-	int		here_fd;
-	int		fake_status;
-	int		fd[2];
+	int		infile;
+	int		outfile;
 	int		**pipe_fd;
-	int		infile_fd;
-	int		outfile_fd;
+	pid_t	pid_child1;
+	pid_t	pid_child2;
+	pid_t	pid_child3;
 }	t_exec;
 
-
-int	status;
+typedef struct s_stat
+{
+	char	*char_status;
+	size_t	len_line;
+	size_t	len_status;
+	char	*str;
+	size_t	j;
+	size_t	a;
+	size_t	b;
+}	t_stat;
 
 // list functions
 void	add_node(t_token **token);
@@ -109,8 +120,7 @@ char	*making_minishell_title(t_envs *envs, char *title);
 char	**fill_envs(t_envs **envs, char **env);
 void	updating_pwd_tool(t_envs *tmp_new, int *i);
 void	updating_pwd_tools(t_envs *tmp_new, char *str, int *i);
-int	check_cd(t_token **token, t_envs *envs);
-
+int		check_cd(t_token **token, t_envs *envs);
 
 // check functions
 size_t	ft_strlen(const char *str);
@@ -165,7 +175,7 @@ char	*remove_character(char *line, int c);
 int		syntax_error(t_token *token);
 
 //	signal functions
-void    signal_handler(int sig);
+void	signal_handler(int sig);
 
 // check expand functions
 int		is_alpha(char c);
@@ -178,8 +188,8 @@ void	check_dup_dollars(t_exp *expand, char *input, size_t *i);
 void	isquote_env(char *input, size_t *i);
 
 // echo functions
-void	echo_command(t_token *token, int fd);
-int		skip_n(t_token *token);
+void	echo_command(char **command, int fd);
+int		skip_n(char **command, size_t *i);
 
 // export functions
 int		check_cases(t_envs **envs, char *str, int check);
@@ -201,6 +211,7 @@ char	*head_value(char *str);
 void	execute_equal(t_envs **envs, char *str);
 void	execute_plus_equal(t_envs **envs, char *str);
 void	execute_not_equal(t_envs **envs, char *str);
+void	export_ex(t_token *head, t_envs **envs, int fd);
 
 // exit functions
 void	ft_exit(t_token *token, t_envs *envs, int flag);
@@ -217,6 +228,8 @@ void	executing_cd_allone(t_envs *envs);
 void	executing_last_cd(t_envs *envs);
 void	executing_cd(t_envs *envs, char *path);
 int		check_cd(t_token **token, t_envs *envs);
+void	update_tmp(t_envs *head, t_envs **tmp_old, t_envs **tmp_new);
+int		help_cd(t_token *head, t_envs *envs);
 
 // unset functions
 int		unset_protection(char *str);
@@ -259,11 +272,48 @@ char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t number, size_t size);
 
 // execution cmd
-void    execute_cmd(t_token **token, t_envs **envs, char **env);
-void    builtin_func(t_token **token, t_envs **envs, int outfile, int flag);
-pid_t    execute_cmd_tools(t_token **token, t_envs **envs, char **env, char **path, int infile, int outfile, int **pipe_fd);
-char    *replace_status(char *line, size_t i);
-char 	*dollar_status_check(char *line);
-char    *ft_itoa(int n);
+pid_t	executing_my_command(t_token **token, t_envs **envs,
+			char **env, t_exec *help);
+int		inside_loop(t_token *head, t_envs **envs, t_exec *help);
+pid_t	execute_cmd_tools(t_token **token, t_envs **envs,
+			char **env, t_exec *help);
+void	execute_cmd(t_token **token, t_envs **envs, char **env);
+void	free_split(char **split);
+char	*if_path(char *command, char **path_splied);
+size_t	if_builting(char *head);
+void	exec_command_help(t_exec *help, size_t *i);
+void	print_command(t_exec *help);
+pid_t	exec_command(t_token **token, t_envs **envs, char **env, t_exec *help);
+int		redirection_in(char *file);
+int		redirection_out(char *file);
+int		redirection_append(char *file);
+size_t	pipe_exist(t_token **token);
+t_token	*head_next_pipe(t_token **token, size_t i);
+void	making_pipe(t_exec **help, size_t pipe_count);
+void	close_and_free(t_exec **help);
+void	pip_waitpid(pid_t pid_child1, pid_t pid_child2, pid_t pid_child3);
+void	initialize_pipe(t_token **token, t_token **head,
+			t_exec **help, size_t i);
+void	pipe_executing(t_token **token, t_exec *help, t_envs **envs,
+			char **env);
+int		here_doc_child(t_token **token, t_envs *envs, char *argv, int *fd);
+int		_here_doc(char *argv, t_token **token, t_envs *envs);
+int		here_doc_exec(t_token *tmp, t_token **head, t_envs *envs,
+			int *infile_fd);
+int		redirection_in_exec(t_token *tmp, t_token **head, int *infile_fd);
+int		redirection_out_exec(t_token **head, int *outfile_fd);
+int		redirection_append_exec(t_token **head, int *outfile_fd);
+char	*semi_command_exec(t_token **head, char *semi_command);
+int		execute_cmd_exec(t_token *tmp, t_token **head, int *infile_fd,
+			int *outfile_fd);
+char	*ft_itoa(int n);
+char	*dollar_status_check(char *line);
+void	builtin_func(t_token **token, t_envs **envs, t_exec *help, int flag);
+
+// minishell utils
+char	**adding_empty_env(t_envs *envs);
+void	if_no_env(t_envs **envs, t_envs **head);
+void	if_no_shlvl(t_envs **head);
+void	update_shlvl(t_envs **head);
 
 #endif

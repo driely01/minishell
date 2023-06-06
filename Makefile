@@ -6,7 +6,7 @@
 #    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/06/05 13:49:13 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/06/06 18:25:10 by del-yaag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,12 +45,22 @@ SRC = minishell.c \
 	  signals.c \
 	  minishell_utils.c \
 	  cd_utils.c \
+	  cd_helpers.c \
 	  ft_atoi_itoa.c ft_itoa.c \
 	  execution.c \
+	  execution_utils.c \
+	  execution_utils1.c \
+	  execution_utils2.c \
+	  execution_utils3.c \
+	  execution_utils4.c \
+	  execution_utils5.c \
+	  export_helps1.c \
+	  minishell_utils1.c \
+	  unset_help.c
 	  
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include -fsanitize=address -g
 CC = cc
 RM = rm -f
 

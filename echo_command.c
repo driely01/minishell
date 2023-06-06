@@ -6,77 +6,70 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 11:19:32 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/03 18:39:44 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 13:10:39 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	printf_echo_args(t_token *head, int is_option, int fd)
+static void	printf_echo_args(char **command, size_t *i, int is_option, int fd)
 {	
-	while (head && head->type < 2)
+	while (command[*i])
 	{
-		ft_putstr_fd(head->string, fd);
+		ft_putstr_fd(command[*i], fd);
 		ft_putstr_fd(" ", fd);
-		head = head->next;
+		(*i)++;
 	}
 	if (!is_option)
 		ft_putstr_fd("\n", fd);
 }
 
-int	skip_n(t_token *token)
+int	skip_n(char **command, size_t *i)
 {
-	size_t	i;
+	size_t	j;
 
-	i = 0;
-	if (token && token->string[i] == '-' && token->string[i + 1] == 'n')
-		i++;
+	j = 0;
+	if (command[*i] && command[*i][j] == '-' && command[*i][j + 1] == 'n')
+		j++;
 	else
 		return (0);
-	while (token && token->string[i] == 'n')
-		i++;
-	if (token && token->string[i] == 0)
+	while (command[*i] && command[*i][j] == 'n')
+		j++;
+	if (command[*i] && command[*i][j] == 0)
 		return (1);
 	return (0);
 }
 
-static void	handle_echo_args(t_token **head, size_t len, char *command, int fd)
+static void	handle_echo_args(char **command, size_t *i, int fd)
 {
-	if (!ft_strncmp((*head)->string, command, 4)
-		&& len == ft_strlen((*head)->string))
+	if (!ft_strncmp(command[*i], "echo", 4))
 	{
-		(*head) = (*head)->next;
-		if (!(*head))
+		(*i)++;
+		if (!command[*i])
 			ft_putstr_fd("\n", fd);
-		else if (skip_n(*head))
+		else if (skip_n(command, i))
 		{
-			while (skip_n(*head))
-				(*head) = (*head)->next;
-			if (!(*head))
+			while (skip_n(command, i))
+				(*i)++;
+			if (!command[*i])
 				ft_putstr_fd("", fd);
 			else
-				printf_echo_args((*head), 1, fd);
+				printf_echo_args(command, i, 1, fd);
 		}
 		else
-			printf_echo_args((*head), 0, fd);
+			printf_echo_args(command, i, 0, fd);
 	}
-	if ((*head) != NULL)
-		(*head) = (*head)->next;
 }
 
-void	echo_command(t_token *token, int fd)
+void	echo_command(char **command, int fd)
 {
-	t_token	*head;
-	char	*command;
-	size_t	len;
+	size_t	i;
 
-	head = token;
-	command = "echo";
-	len = ft_strlen(command);
-	while (head)
+	i = 0;
+	while (command[i])
 	{
-		handle_echo_args(&head, len, command, fd);
-		if (head != NULL)
-			head = head->next;
+		handle_echo_args(command, &i, fd);
+		if (command[i])
+			i++;
 	}
 }

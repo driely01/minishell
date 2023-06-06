@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:10:07 by markik            #+#    #+#             */
-/*   Updated: 2023/06/03 18:47:44 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:18:20 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ size_t	ft_strlen_2(char **str)
 	return (i);
 }
 
-void	builtin_func(t_token **token, t_envs **envs, int outfile, int flag)
+void	builtin_func(t_token **token, t_envs **envs, t_exec *help, int flag)
 {
-	check_export(token, envs, outfile);
+	g_status = 0;
+	if (flag == 1)
+		help->outfile = STDOUT_FILENO;
+	check_export(token, envs, help->outfile);
 	check_cd(token, *envs);
-	echo_command(*token, outfile);
-	ft_pwd(*token, *envs, outfile);
+	echo_command(help->command, help->outfile);
+	ft_pwd(*token, *envs, help->outfile);
 	check_unset(token, envs);
 	ft_exit(*token, *envs, flag);
 }
