@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:30:08 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 17:23:09 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:33:20 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,11 @@ int	skip_qoutes(char *input, t_var *var, size_t *i)
 	(*i)++;
 	var->start = *i;
 	while (input[*i] && input[*i] != 39)
-	{
-		if (ft_isseparators(input[*i]) && !here_doc(input))
-		{
-			perror(input);
-			return (-1);
-		}
 		(*i)++;
-	}
 	if (input[*i] != 39)
 	{
-		printf("Syntax erorr\n");
+		g_status = 256;
+		ft_putstr_fd("Syntax erorr\n", 2);
 		*(var->flag) = 0;
 		return (-1);
 	}
@@ -42,17 +36,11 @@ int	skip_doubleqoutes(char *input, t_var *var, size_t *i)
 	(*i)++;
 	var->start = *i;
 	while (input[*i] && input[*i] != 34)
-	{
-		if (ft_isseparators(input[*i]) && !here_doc(input))
-		{
-			perror(input);
-			return (-1);
-		}
 		(*i)++;
-	}
 	if (input[*i] != 34)
 	{
-		printf("Syntax erorr\n");
+		g_status = 256;
+		ft_putstr_fd("Syntax erorr\n", 2);
 		*(var->flag) = 0;
 		return (-1);
 	}

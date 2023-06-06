@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 10:16:16 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 20:58:53 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/06 18:11:43 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int	check_what(t_token **token, char *input, size_t *i)
 	else if ((input[*i] >= 9 && input[*i] <= 13) || input[*i] == 32)
 		handle_whitespace(input, i);
 	else if (ft_isseparators(input[*i]))
-		handel_separators(token, input, i);
+	{
+		if (handel_separators(token, input, i) == -1)
+			return (-1);
+	}
 	else if (input[*i] == 34)
 	{
 		if (double_qoutes(token, input, i) == -1)
@@ -78,15 +81,22 @@ char	*minishell_tools(t_token **token, t_envs *envs, char *input)
 	char	*trimed;
 	char	*line;
 
+	if (!input)
+		exit(0);
 	trimed = ft_strtrim(input, " \t\r\f\v");
 	if (!trimed)
 	{
 		free(input);
+		input = NULL;
 		return (NULL);
 	}
 	free(input);
 	line = expand_input(envs, trimed);
 	line = remove_character(line, 31);
-	tokenizer(token, line);
+	line = dollar_status_check(line);
+	if (tokenizer(token, line) == -1)
+		return (clear_list(token), free(line), NULL);
+	if (!syntax_error(*token))
+		return (clear_list(token), free(line), NULL);
 	return (line);
 }
