@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 18:18:01 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/27 18:18:33 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:38:13 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strndup(char *str, int start, int end)
 
 	i = 0;
 	string = malloc(sizeof(char) * (end - start) + 2);
+	if (!string)
+		return (NULL);
 	while (end - start >= 0)
 	{
 		string[i] = str[start];

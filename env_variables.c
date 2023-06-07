@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_variables.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 10:20:28 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/02 19:34:42 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:31:36 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*ft_strlen_var(char *str, char c)
 	while (str[i] != c)
 		i++;
 	found = malloc(sizeof(char) * i + 1);
+	if (!found)
+		return (NULL);
 	while (j < i)
 	{
 		found[j] = str[j];
@@ -67,17 +69,25 @@ void	add_envs(t_envs **envs, t_envs **head)
 	if (!(*envs))
 	{
 		*envs = malloc(sizeof(t_envs));
+		if (!(*envs))
+		{
+			clear_list_envs(envs);
+			return ;
+		}
 		(*envs)->next = NULL;
 		*head = *envs;
 	}
 	else
 	{
 		(*envs)->next = malloc(sizeof(t_envs));
+		if (!(*envs))
+		{
+			clear_list_envs(envs);
+			return ;
+		}
 		*envs = (*envs)->next;
 		(*envs)->next = NULL;
 	}
-	if (!(*envs))
-		clear_list_envs(envs);
 }
 
 char	**add_env(char **env)
@@ -91,6 +101,8 @@ char	**add_env(char **env)
 	if (len == 0)
 		return (NULL);
 	str = malloc(sizeof(char *) * (len + 1));
+	if (!str)
+		return (NULL);
 	while (env[i])
 	{
 		str[i] = ft_strdup(env[i]);

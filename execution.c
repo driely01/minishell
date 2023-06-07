@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 16:55:38 by markik            #+#    #+#             */
-/*   Updated: 2023/06/06 15:22:32 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:56:45 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ void	execute_cmd(t_token **token, t_envs **envs, char **env)
 		waitpid(pid, &g_status, 0);
 		signal(SIGINT, signal_handler);
 		if (g_status == 2)
+		{
+			g_status = 256;
 			write(1, "\n", 1);
+		}
 	}
 }

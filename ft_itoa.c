@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 15:41:15 by markik            #+#    #+#             */
-/*   Updated: 2023/06/06 18:23:39 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:52:57 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*replace_status(char *line, size_t i)
 	stat.b = 0;
 	stat.str = malloc(sizeof(char) * (stat.len_line - ft_strlen("$?")
 				+ stat.len_status) + 2);
+	if (!stat.str)
+		return (NULL);
 	while (stat.j < stat.len_line)
 	{
 		if (stat.j == i)
@@ -36,8 +38,7 @@ char	*replace_status(char *line, size_t i)
 	}
 	stat.str[stat.b] = '\0';
 	free(stat.char_status);
-	free(line);
-	return (stat.str);
+	return (free(line), stat.str);
 }
 
 char	*dollar_status_check(char *line)
@@ -85,7 +86,7 @@ char	*ft_itoa(int n)
 	power = ft_power(nb);
 	str = (char *)malloc(sizeof (char) * (power + 1));
 	if (!str)
-		return (0);
+		return (NULL);
 	str[power] = '\0';
 	if (nb == 0)
 		str[0] = 48;
