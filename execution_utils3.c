@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:48:47 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/06 15:19:21 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:56:32 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	_here_doc(char *argv, t_token **token, t_envs *envs)
 	signal(SIGINT, signal_handler);
 	if (fake_status == 2)
 	{
+		g_status = 256;
 		write(1, "\n", 1);
 		return (-1);
 	}

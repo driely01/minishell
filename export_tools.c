@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/29 21:27:06 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/06 18:23:29 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:35:20 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ t_envs	*ft_lstadd_back(t_envs **lst)
 	if (!(*lst))
 	{
 		*lst = malloc(sizeof(t_envs));
+		if (!*lst)
+			return (clear_list_envs(lst), NULL);
 		(*lst)->next = NULL;
 		return (*lst);
 	}
@@ -110,6 +112,8 @@ t_envs	*ft_lstadd_back(t_envs **lst)
 	while (tmp -> next != NULL)
 	tmp = tmp -> next;
 	new = malloc(sizeof(t_envs));
+	if (!new)
+		return (clear_list_envs(lst), NULL);
 	tmp -> next = new;
 	new->next = NULL;
 	return (tmp->next);

@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 18:16:54 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/06 18:23:53 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 11:51:24 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	**adding_empty_env(t_envs *envs)
 	head = envs;
 	len = size_of_envs(envs);
 	str = malloc(sizeof(char *) * len + 1);
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (head->next && i < len)
 	{
@@ -89,6 +91,11 @@ void	shlvl_help(t_envs **head)
 		else
 		{	
 			new = malloc(sizeof(t_envs));
+			if (!new)
+			{
+				clear_list_envs(head);
+				return ;
+			}
 			new->name = ft_strdup("SHLVL");
 			new->value = ft_strdup("1");
 			(*head)->next = new;

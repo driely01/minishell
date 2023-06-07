@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 13:47:35 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/06/06 15:22:32 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:55:50 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ void	making_pipe(t_exec **help, size_t pipe_count)
 
 	i = 0;
 	(*help)->pipe_fd = malloc(sizeof(int *) * (pipe_count + 1));
+	if (!(*help)->pipe_fd)
+		return ;
 	while (i < pipe_count)
 	{
 		(*help)->pipe_fd[i] = malloc(sizeof(int) * 2);
+		if (!(*help)->pipe_fd[i])
+			return ;
 		pipe((*help)->pipe_fd[i]);
 		i++;
 	}
@@ -68,7 +72,10 @@ void	pip_waitpid(pid_t pid_child1, pid_t pid_child2, pid_t pid_child3)
 	waitpid(pid_child3, &g_status, 0);
 	signal(SIGINT, signal_handler);
 	if (g_status == 2)
+	{
+		g_status = 256;
 		write(1, "\n", 1);
+	}
 }
 
 void	initialize_pipe(t_token **token, t_token **head,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: markik <markik@student.42.fr>              +#+  +:+       +#+        */
+/*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 20:05:59 by del-yaag          #+#    #+#             */
-/*   Updated: 2023/05/31 13:09:34 by markik           ###   ########.fr       */
+/*   Updated: 2023/06/07 11:33:49 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*replace_word(t_exp *expand, char *line, size_t *z)
 	expand->replace_word_len = (ft_strlen(line) - (ft_strlen(expand->tab) + 1)
 			+ ft_strlen(expand->str) + 1);
 	str = malloc(sizeof(char) * expand->replace_word_len);
+	if (!str)
+		return (NULL);
 	while (expand->replace_word_i <= ft_strlen(line))
 	{
 		if (expand->replace_word_i == expand->cli_start)
@@ -73,6 +75,8 @@ char	*ft_strenv(t_exp *expand, size_t z, int flag)
 		return (expand->str);
 	len = ft_strlen(expand->str);
 	str = malloc(sizeof(char) * len + 3);
+	if (!str)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (expand->str[i])

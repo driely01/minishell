@@ -6,7 +6,7 @@
 /*   By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 17:10:07 by markik            #+#    #+#             */
-/*   Updated: 2023/06/06 18:18:20 by del-yaag         ###   ########.fr       */
+/*   Updated: 2023/06/07 13:53:09 by del-yaag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	**aka_fill_env(t_envs *envs, size_t len)
 	head = envs;
 	i = 0;
 	str = malloc(sizeof(char *) * (len + 1));
+	if (!str)
+		return (NULL);
 	while (head)
 	{
 		save = ft_strjoiness(head->name, "=");
@@ -83,7 +85,7 @@ char	**updating_env(t_envs *envs, char **env)
 	if (len == 0)
 	{
 		if (env)
-			free(env);
+			free_split(env);
 		env = NULL;
 		return (env);
 	}

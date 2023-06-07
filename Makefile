@@ -6,7 +6,7 @@
 #    By: del-yaag <del-yaag@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/20 14:31:22 by del-yaag          #+#    #+#              #
-#    Updated: 2023/06/06 18:25:10 by del-yaag         ###   ########.fr        #
+#    Updated: 2023/06/07 13:20:39 by del-yaag         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ SRC = minishell.c \
 	  
 OBG = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -I/Users/del-yaag/homebrew/opt/readline/include #-fsanitize=address -g
 CC = cc
 RM = rm -f
 
