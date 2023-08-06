@@ -7,6 +7,9 @@
 https://cdn.intra.42.fr/pdf/pdf/93145/en.subject.pdf
 ```
 
+### about the project
+First you need to study the behavior of the actual `bash` and see how it work under the hood, then you need to learn about the following system calls `access` `open` `read` `close` `fork` `wait & waitpid` `kill` `exit` `getcwd` `chdir` `execve` `dup & dup2` `pipe` `perror`, and now the main idea of this project is to execute the cmds with pipes or without and execute the builtin commands like `cd` `pwd` `echo` `export` `unset` `exit` `env` and execute the heredoc the same like in bash. But before to execute all this you should first parce the line who enter as a input to see if it doesn't contain any syntax errors or invalid input.
+
 ## Parsing Part
 <img width="1400" alt="Screen Shot 2023-06-14 at 10 54 08 AM" src="https://github.com/driely01/minishell/assets/41493879/f0df2261-a30b-4a02-bce9-c001dc569e3b">
 ## how tokenizer work
