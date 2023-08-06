@@ -1,5 +1,5 @@
 # minishell
-<img width="520" alt="Screen Shot 2023-08-06 at 12 11 49 PM" src="https://github.com/driely01/minishell/assets/41493879/bf3fbdec-21d8-4f27-9e21-1f912b008204">
+<img width="541" alt="Screen Shot 2023-08-06 at 4 17 59 PM" src="https://github.com/driely01/minishell/assets/41493879/a001c046-9345-49a8-a683-f72a1b8f77d7">
 
 > The project subject:
 
