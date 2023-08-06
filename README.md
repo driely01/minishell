@@ -12,6 +12,7 @@ First you need to study the behavior of the actual `bash` and see how it work un
 
 **Resources**
 1. Bash: [Check it](https://www.gnu.org/software/bash/manual/bash.html)
+2. open and other system calls: [Check it](https://man.freebsd.org/cgi/man.cgi?query=open&apropos=0&sektion=2&manpath=FreeBSD+13.2-RELEASE+and+Ports&arch=default&format=html)
 
 ## Parsing Part
 <img width="1400" alt="Screen Shot 2023-06-14 at 10 54 08 AM" src="https://github.com/driely01/minishell/assets/41493879/f0df2261-a30b-4a02-bce9-c001dc569e3b">
