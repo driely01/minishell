@@ -24,4 +24,4 @@ First you need to study the behavior of the actual `bash` and see how it work un
 ```
 https://www.figma.com/community/file/1269608787526815167/minishell-execution-part
 ```
-<img width="1169" alt="Screen Shot 2023-08-05 at 11 45 37 AM" src="https://github.com/driely01/minishell/assets/41493879/85bd6eb5-3ea8-4232-a2e8-7b397f732107">
+<img width="1454" alt="Screen Shot 2023-09-22 at 4 26 15 PM" src="https://github.com/driely01/minishell/assets/41493879/af9f7284-c5bd-4a09-8f75-3c40a0f99573">
