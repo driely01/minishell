@@ -1,6 +1,6 @@
 # minishell
 <img width="400" alt="Screen Shot 2023-09-22 at 4 42 51 PM" src="https://github.com/driely01/minishell/assets/41493879/ca9facdf-b4fb-4b6b-a0b2-1651ebe5020f">
-<img width="226" alt="Screen Shot 2023-09-22 at 4 44 18 PM" src="https://github.com/driely01/minishell/assets/41493879/8d407699-00fa-43ce-a4a6-3978fefa8d9f">
+<!-- <img width="226" alt="Screen Shot 2023-09-22 at 4 44 18 PM" src="https://github.com/driely01/minishell/assets/41493879/8d407699-00fa-43ce-a4a6-3978fefa8d9f"> -->
 
 > The project subject:
 
